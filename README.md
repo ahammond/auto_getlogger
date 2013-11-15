@@ -19,4 +19,4 @@ Limitations
 -----------
 
 Currently doesn't work with either static or class methods.
-I'm not sure how to solve this problem.
+I'm not sure how to solve this problem. I'm working on it thought.
