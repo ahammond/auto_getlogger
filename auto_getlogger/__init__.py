@@ -1,6 +1,6 @@
 from logging import getLogger
 
-__all__ = ['AutoGetlogger']
+__all__ = ['AutoGetlogger', 'auto_getlogger']
 
 
 class AutoGetLoggerType(type):
@@ -47,3 +47,10 @@ class AutoGetLoggerType(type):
 
 class AutoGetLogger(object):
     __metaclass__ = AutoGetLoggerType
+
+
+def auto_getlogger(method_reference):
+    def wrapper(*args, **kwargs):
+        logger = getLogger(method_reference.__name__)
+        return method_reference(*args, l=logger, **kwargs)
+    return wrapper

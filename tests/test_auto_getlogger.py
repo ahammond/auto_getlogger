@@ -1,4 +1,4 @@
-from auto_getlogger import AutoGetLogger
+from auto_getlogger import AutoGetLogger, auto_getlogger
 from unittest2 import TestCase
 
 
@@ -46,3 +46,14 @@ class TestAutoGetLogger(TestCase):
         l = kwargs['l']
         self.assertEqual('Logger', l.__class__.__name__)
         self.assertEqual('T.clasS_method', l.name)
+
+
+class TestAutoGetLoggerFunction(TestCase):
+
+    def test_a(self):
+        @auto_getlogger
+        def fake_method(l):
+            return l
+        t = fake_method()
+        self.assertEqual('Logger', t.__class__.__name__)
+        self.assertEqual('fake_method', t.name)
