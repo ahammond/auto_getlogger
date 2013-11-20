@@ -45,7 +45,7 @@ class TestAutoGetLogger(TestCase):
         self.assertItemsEqual(('l',), kwargs.keys())
         l = kwargs['l']
         self.assertEqual('Logger', l.__class__.__name__)
-        self.assertEqual('T.clasS_method', l.name)
+        self.assertEqual('T.class_method', l.name)
 
 
 class TestAutoGetLoggerFunction(TestCase):
