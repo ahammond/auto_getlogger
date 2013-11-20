@@ -15,6 +15,10 @@ class T(AutoGetLogger):
         return args, kwargs
 
 
+class U(T):
+    pass
+
+
 class TestAutoGetLogger(TestCase):
 
     def test_regular_method(self):
@@ -46,6 +50,17 @@ class TestAutoGetLogger(TestCase):
         l = kwargs['l']
         self.assertEqual('Logger', l.__class__.__name__)
         self.assertEqual('T.class_method', l.name)
+
+    def test_inheritance(self):
+        t = U()
+        args, kwargs = t.regular_method()
+        self.assertEqual(1, len(args))
+        self.assertEqual(t, args[0])
+        self.assertEqual(1, len(kwargs))
+        self.assertItemsEqual(('l',), kwargs.keys())
+        l = kwargs['l']
+        self.assertEqual('Logger', l.__class__.__name__)
+        self.assertEqual('U.regular_method', l.name)
 
 
 class TestAutoGetLoggerFunction(TestCase):
