@@ -21,9 +21,12 @@ Usage
 ...     def example_method(self, l, foo=None):
 ...         l.error('called with foo: %r', foo)
 ...
->>> e = ExampleClass()
->>> e.example_method(foo='bar')
-2013-11-19 17:40:39,310 ExampleClass.example_method ERROR called with foo: 'bar'
+>>> class InheritedExample(ExampleClass):
+...     pass
+...
+>>> i = InheritedExample()
+>>> i.example_method(foo='bar')
+2013-11-19 18:11:41,877 InheritedExample.example_method ERROR called with foo: 'bar'
 ```
 
 Limitations
