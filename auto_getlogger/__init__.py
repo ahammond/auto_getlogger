@@ -1,6 +1,6 @@
 from logging import getLogger
 
-__all__ = ['AutoGetlogger', 'auto_getlogger']
+__all__ = ['AutoGetLogger', 'auto_getlogger']
 
 
 class AutoGetLoggerType(type):
