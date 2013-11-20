@@ -47,3 +47,39 @@ Limitations
 As you can see from the two failing tests,
 this module currently doesn't work with either static or class methods.
 I'm not sure how to solve this problem. I'm working on it though.
+
+Migrating Legacy Code
+---------------------
+
+This is where `auto_getlogger` really shines. It takes 6 steps.
+
+1. Replace importing direct calls to `debug`, `info`, etc. with the import of `auto_getlogger`.
+1. For all classes, include `AutoGetLogger` in their interitance tree.
+1. For all functions, wrap them with `@auto_getlogger`.
+1. Make sure you are not using `l` as a local variable name or formal parameter elsewhere in the code.
+1. For all function and method calls, add the formal parameter `l` as a first keyword argument.
+1. For all cases where you have (now broken) direct calls to `debug`, `info`, etc. prepend an `l.`
+   so that they  are calling through the provided logger object.
+
+The following diff demonstrates the upgrade of some legacy code to use `auto_getlogger`.
+
+```diff
+-from logging import debug, info, warning, error, exception
++from auto_getlogger import *
+
++class LegacyClass(AutoGetLogger):
+
+-class LegacyClass(object):
++    def legacy_method(self, foo, l, bar=None):
++        l.warning('legacy_method self: %r, foo: %r, bar: %r', self, foo, bar)
+
+-    def legacy_method(self, foo, bar=None):
+-        warning('legacy_method self: %r, foo: %r, bar: %r', self, foo, bar)
+
+-
+-def legacy_function(foo, bar=None):
+-    error('legacy_function foo: %r, bar: %r', foo, bar)
++@auto_getlogger
++def legacy_function(foo, l, bar=None):
++    l.error('legacy_function foo: %r, bar: %r', foo, bar)
+```
