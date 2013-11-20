@@ -11,7 +11,7 @@ class AutoGetLoggerType(type):
     def __new__(mcs, name, bases, dictionary):
         for k, v in dictionary.items():
             if 'function' == v.__class__.__name__:
-                dictionary[k] = mcs.add_logger_to_method(dictionary[k], name)
+                dictionary[k] = mcs.add_logger_to_method(dictionary[k])
             elif 'staticmethod' == v.__class__.__name__:
                 dictionary[k] = mcs.add_logger_to_staticmethod(dictionary[k], name)
             elif 'classmethod' == v.__class__.__name__:
@@ -19,12 +19,9 @@ class AutoGetLoggerType(type):
         return type.__new__(mcs, name, bases, dictionary)
 
     @classmethod
-    def add_logger_to_method(mcs, method_reference, name):
-
+    def add_logger_to_method(mcs, method_reference):
         def wrapper(self, *args, **kwargs):
-            # TODO: If I use instead self.__class__.__name__ does that lead to more correct results WRT inheritance?
-            # Or is name just as correct?
-            logger = getLogger('{0}.{1}'.format(name, method_reference.__name__))
+            logger = getLogger('{0}.{1}'.format(self.__class__.__name__, method_reference.__name__))
             return method_reference(self, *args, l=logger, **kwargs)
         return wrapper
 
