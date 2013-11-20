@@ -7,4 +7,5 @@ setup(name='auto_getlogger',
       description='Consistent category logging via automated calls to logging.getLogger()',
       author='Andrew Hammond',
       author_email='andrew.george.hammond@gmail.com',
+      url='https://github.com/ahammond/auto_getlogger',
       py_modules=['auto_getlogger'])
