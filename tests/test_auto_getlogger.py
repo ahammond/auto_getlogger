@@ -6,6 +6,10 @@ class T(AutoGetLogger):
     def regular_method(*args, **kwargs):
         return args, kwargs
 
+    @property
+    def my_property(*args, **kwargs):
+        return args, kwargs
+
     @staticmethod
     def static_method(*args, **kwargs):
         return args, kwargs
@@ -31,6 +35,17 @@ class TestAutoGetLogger(TestCase):
         l = kwargs['l']
         self.assertEqual('Logger', l.__class__.__name__)
         self.assertEqual('T.regular_method', l.name)
+
+    def test_property(self):
+        t = T()
+        args, kwargs = t.my_property
+        self.assertEqual(1, len(args))
+        self.assertEqual(t, args[0])
+        self.assertEqual(1, len(kwargs))
+        self.assertItemsEqual(('l',), kwargs.keys())
+        l = kwargs['l']
+        self.assertEqual('Logger', l.__class__.__name__)
+        self.assertEqual('T.my_property', l.name)
 
     def test_static_method(self):
         args, kwargs = T.static_method()
