@@ -11,7 +11,7 @@ class AutoGetLoggerType(type):
     def __new__(mcs, name, bases, dictionary):
         for k, v in dictionary.items():
             if 'function' == v.__class__.__name__:
-                dictionary[k] = mcs.add_logger_to_method(dictionary[k])
+                dictionary[k] = mcs.add_logger_to_method(v)
             #elif 'staticmethod' == v.__class__.__name__:
             #    dictionary[k] = mcs.add_logger_to_staticmethod(dictionary[k], name)
             #elif 'classmethod' == v.__class__.__name__:
